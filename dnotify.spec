@@ -1,12 +1,13 @@
 %define name dnotify 
 %define version 0.18.0
-%define release %mkrel 4
+%define release %mkrel 5
 
 Summary: Execute command when directory changes
 Name: %{name}
 Version: %{version}
 Release: %{release}
-URL: http://oskarsapps.mine.nu/dnotify.html
+# Not working anymore ??
+# URL: http://oskarsapps.mine.nu/dnotify.html
 Source0: http://oskarsapps.mine.nu/src/%{name}-%{version}.tar.bz2
 Source1: %{name}.init.bz2
 Source2: %{name}.sysconfig.bz2
