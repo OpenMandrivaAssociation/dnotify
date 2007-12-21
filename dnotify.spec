@@ -14,6 +14,7 @@ Source2: %{name}.sysconfig.bz2
 Source3: %{name}.d.README.bz2
 License: GPL
 Group: File tools
+BuildRoot: %{_tmppath}/%{name}-buildroot
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
 
