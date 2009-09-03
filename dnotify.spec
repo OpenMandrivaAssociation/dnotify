@@ -1,6 +1,6 @@
 %define name dnotify 
 %define version 0.18.0
-%define release %mkrel 7
+%define release %mkrel 8
 
 Summary: Execute command when directory changes
 Name: %{name}
