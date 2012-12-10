@@ -9,12 +9,12 @@ Release: %{release}
 # Not working anymore ??
 # URL: http://oskarsapps.mine.nu/dnotify.html
 Source0: http://oskarsapps.mine.nu/src/%{name}-%{version}.tar.bz2
-Source1: %{name}.init.bz2
-Source2: %{name}.sysconfig.bz2
-Source3: %{name}.d.README.bz2
+Source1: %{name}.init
+Source2: %{name}.sysconfig
+Source3: %{name}.d.README
+Patch0: dnotify-include-stat_h.patch
 License: GPL
 Group: File tools
-BuildRoot: %{_tmppath}/%{name}-buildroot
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
 
@@ -31,28 +31,21 @@ etc.
 
 %prep
 %setup -q
+%patch0 -p0 -b .stat_h
 
 %build
 %configure
 %make
 
 %install
-%{__rm} -rf $RPM_BUILD_ROOT
-
 %makeinstall
-%{__install} -m755 -d $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/%{name}.d
-%{__install} -m755 -d $RPM_BUILD_ROOT%{_initrddir}
-%{__bzip2} -dc %{SOURCE1} > $RPM_BUILD_ROOT%{_initrddir}/%{name}
-%{__bzip2} -dc %{SOURCE2} > $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/%{name}
-%{__bzip2} -dc %{SOURCE3} > $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/%{name}.d/README
-%{__chmod} 700 $RPM_BUILD_ROOT%{_initrddir}/%{name}
-%{__chmod} 600 $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/%{name}
-%{__chmod} 644 $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/%{name}.d/README
+%{__install} -m755 -d %{buildroot}%{_sysconfdir}/sysconfig/%{name}.d
+%{__install} -m755 -d %{buildroot}%{_initrddir}
+%{__install} -m700 %{SOURCE1} %{buildroot}%{_initrddir}/%{name}
+%{__install} -m600 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+%{__install} -m644 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{name}.d/README
 
 %find_lang %name
-
-%clean
-%{__rm} -rf $RPM_BUILD_ROOT
 
 %post
 %_post_service %{name}
@@ -61,7 +54,6 @@ etc.
 %_preun_service %{name}
 
 %files -f %name.lang
-%defattr(-,root,root)
 %{_bindir}/dnotify
 %{_mandir}/*/*
 %config(noreplace) %{_initrddir}/%{name}
@@ -69,4 +61,3 @@ etc.
 %dir %{_sysconfdir}/sysconfig/%{name}.d
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}.d/README
 %doc README NEWS AUTHORS COPYING INSTALL
-

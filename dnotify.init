@@ -1,0 +1,73 @@
+#!/bin/sh
+#
+# Startup script for dnotify 
+#
+# chkconfig: 345 91 15
+# description: dnotify executes a command when the contents of a \
+#              directory change
+# processname: dnotify 
+# config: /etc/sysconfig/dnotify
+#
+# By: Ben Reser <ben@reser.org> 
+#
+### BEGIN INIT INFO
+# Provides: dnotify
+# Default-Start: 3 4 5
+# Short-Description: Directory Content Watcher
+# Description: Directory Content Watcher
+### END INIT INFO
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+[ -x /usr/bin/dnotify ] || exit 0
+
+[ -r /etc/sysconfig/dnotify ] && [ -f /etc/sysconfig/dnotify ] || exit 0
+
+[ -r /etc/sysconfig/dnotify.d ] && [ -d /etc/sysconfig/dnotify.d ] || exit 0
+
+egrep -qshv '^([[:space:]]*#|[[space:]]*$)' /etc/sysconfig/dnotify \
+	/etc/sysconfig/dnotify.d/* || exit 0
+
+RETVAL=0
+
+# See how we were called.
+case "$1" in
+  start)
+	gprintf "Starting dnotify: "
+	egrep -shv '^([[:space:]]*#|[[:space:]]*$)' /etc/sysconfig/dnotify \
+	    /etc/sysconfig/dnotify.d/* | while read args; do
+		 /usr/bin/dnotify $args &
+		# Make sure any failure is saved in RETVAL
+		retval_temp=$?
+		[ $retval_temp -ne 0 ] && RETVAL=$retval_temp
+	done;
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/dnotify && success || failure
+	echo
+	;;
+  stop)
+	gprintf "Shutting down dnotify: "
+	killall /usr/bin/dnotify 1>&2 2> /dev/null
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/dnotify && success || failure
+	echo
+	;;
+  status)
+	status dnotify 
+	RETVAL=$?
+	;;
+  restart)
+	$0 stop
+	$0 start
+	RETVAL=$?
+	;;
+  reload)
+  	$0 restart
+	RETVAL=$?
+	;;
+  *)
+	gprintf "Usage: %s {start|stop|status|restart|reload}" "$0"
+	exit 1
+esac
+
+exit $RETVAL

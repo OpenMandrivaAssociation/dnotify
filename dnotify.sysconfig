@@ -1,0 +1,8 @@
+# This file allows you to specify instances of dnotify
+# that should be started by the dnotify init script.
+# Each line that does not start with a # character
+# represents an instance of dnotify command to start.
+# The line will contain the command line args to pass dnotify.
+# E.G. (of course without the #):
+# -CDMRB -r /etc/httpd -e service httpd configtest >> /var/log/dnotify
+# -CDMR -p1q0 /var/mirror/urpm -e su -c'/usr/local/bin/rebuildhdlist >> /var/log/urpmirror' urpmirror

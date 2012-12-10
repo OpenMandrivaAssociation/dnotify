@@ -1,5 +1,5 @@
 sources:
-  "dnotify-0.18.0.tar.bz2:"	cf46255fdb97155cac0c21773745e4054ca7a5ae
-  "dnotify.d.README.bz2:"	9281f31a2221f98187bb974da8dcdc759f55fcbd
-  "dnotify.init.bz2:"	84747b575d2c52170f28f22048de74511320be74
-  "dnotify.sysconfig.bz2:"	5f196b4b0973420441a550299169697757150c58
+  "dnotify-0.18.0.tar.bz2": cf46255fdb97155cac0c21773745e4054ca7a5ae
+  "dnotify.d.README.bz2": 9281f31a2221f98187bb974da8dcdc759f55fcbd
+  "dnotify.init.bz2": 84747b575d2c52170f28f22048de74511320be74
+  "dnotify.sysconfig.bz2": 5f196b4b0973420441a550299169697757150c58
