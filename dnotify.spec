@@ -18,6 +18,11 @@ Group: File tools
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 %description
 Dnotify is a simple program that makes it possible
 to execute a command every time the contents of a
